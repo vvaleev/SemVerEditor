@@ -1,0 +1,28 @@
+body {
+}
+
+.message-box {
+    border-radius : 5px;
+    padding       : 10px 15px;
+    margin-bottom : 10px;
+    word-wrap     : break-word;
+}
+
+.white-popup {
+    position         : relative;
+    background-color : white;
+    padding          : 40px 20px;
+    max-width        : 500px;
+    margin           : 20px auto;
+}
+
+.draggable {
+    position         : absolute;
+    opacity          : 0.5;
+    background-color : #FFFFFF;
+    pointer-events   : none;
+}
+
+.droppable {
+    border : 2px solid #05B668 !important;
+}
