@@ -9,7 +9,7 @@
     var paramName;
     var paramValue;
     var parameters    = {};
-    var lang          = 'ru';
+    var lang          = 'en';
     var headElement   = document.head;
     var scriptElement = document.createElement('script');
 
