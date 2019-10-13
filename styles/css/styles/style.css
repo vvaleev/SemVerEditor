@@ -1,0 +1,146 @@
+body {
+    background-color : #098FD0;
+    font-size        : 14px;
+}
+
+.semver__wrapper {
+    width            : 600px;
+    height           : 530px;
+    background-color : #FFFFFF;
+    position         : absolute;
+    left             : 50%;
+    top              : 50%;
+    margin-left      : -300px;
+    margin-top       : -265px;
+    box-shadow       : 0 0 15px 1px #D8D8D8;
+    border-radius    : 5px;
+}
+
+.semver__header {
+    box-shadow    : 0 2px 10px -1px #B1B1B1;
+    padding       : 10px 0;
+    margin-bottom : 9px;
+}
+
+.semver__header_title {
+    font-size     : 1.5em;
+    margin-bottom : 5px;
+}
+
+.semver__header_project-caption {
+    font-size   : 1.3em;
+    font-weight : bold;
+}
+
+.semver__content {
+    margin-bottom : 2px;
+}
+
+.semver__content_start-screen {
+    padding          : 203px 225px;
+    background-color : #FFFFFF;
+}
+
+.semver__content_start-button {
+    width  : 150px;
+    height : 36px;
+}
+
+.semver__content_second-screen {
+    height           : 200px;
+    overflow         : auto;
+    background-color : #FFFFFF;
+    box-shadow       : 0 2px 10px -1px #B1B1B1;
+    margin-bottom    : 7px;
+}
+
+.semver__content_table {
+}
+
+.semver__content_table th {
+    text-align : center;
+}
+
+.semver__content_active-column {
+    background-color : #EFFF00;
+    font-weight      : bold;
+    color            : #004EFF;
+}
+
+.semver__content_third-screen {
+    background-color : #FFFFFF;
+    padding          : 10px 0;
+    height           : 235px;
+}
+
+.semver__content_form-versions {
+    height : 177px;
+}
+
+.semver__content_form-version-block {
+    margin-bottom : 5px;
+    padding       : 0 15px;
+    float         : left;
+}
+
+.semver__content_form-version-info-block {
+    cursor   : default;
+    position : relative;
+}
+
+.semver__content_form-version-info-block:hover .semver__content_form-version-info {
+    display : inline-block;
+}
+
+.semver__content_form-version-info-icon {
+    background-color : #5BC0DE;
+    display          : inline-block;
+    padding          : 5px;
+    border-radius    : 50%;
+    height           : 30px;
+    width            : 30px;
+    font-weight      : bold;
+    color            : #FFFFFF;
+}
+
+.semver__content_form-version-info {
+    display          : none;
+    position         : absolute;
+    left             : 40px;
+    top              : 0;
+    padding          : 10px 15px;
+    width            : 515px;
+    height           : 180px;
+    overflow         : auto;
+    background-color : #FFFFFF;
+    box-shadow       : 0 0 10px -1px #B1B1B1;
+}
+
+.semver__content_form-version-name {
+    font-weight : bold;
+}
+
+.semver__content_form-version-description {
+}
+
+.semver__content_form-version-option {
+    margin-left : 10px;
+}
+
+.semver__footer {
+    padding                    : 10px 0;
+    background-color           : #078ACA;
+    border-bottom-left-radius  : 5px;
+    border-bottom-right-radius : 5px;
+}
+
+.semver__footer_link {
+    color : #003F5D;
+}
+
+.semver__footer_delimiter {
+    color : #012231;
+}
+
+.semver__modal_add-project {
+}
