@@ -75,5 +75,9 @@
         $.magnificPopup.open(options);
     };
 
+    Modal.prototype.close = function() {
+        $.magnificPopup.close();
+    };
+
     win.Modal = win.Modal || new Modal;
 })(window, document, jQuery);
