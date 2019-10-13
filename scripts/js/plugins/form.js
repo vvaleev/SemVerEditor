@@ -98,5 +98,42 @@
         });
     };
 
+    Form.prototype.initForm = function(idForm, callback) {
+        if(typeof idForm !== 'string' || typeof callback !== 'function') {
+            return false;
+        }
+
+        var self = this;
+        var formElement;
+        var $btnSubmit;
+        var formData;
+        var data = {};
+
+        $(doc).on('submit', '[data-form="' + idForm + '"]', function(e) {
+            e.preventDefault();
+
+            formElement = this;
+
+            if(!self.formValidate(formElement)) {
+                return false;
+            }
+
+            $btnSubmit = $(formElement).find('[data-loading-text]');
+            formData   = new FormData(formElement);
+
+            $btnSubmit.button('loading');
+
+            setTimeout(function() {
+                formData.forEach(function(value, key) {
+                    data[key] = value;
+                });
+
+                callback(data, formElement);
+
+                $btnSubmit.button('reset');
+            }, 24);
+        });
+    };
+
     win.Form = win.Form || new Form;
 })(window, document, jQuery);
