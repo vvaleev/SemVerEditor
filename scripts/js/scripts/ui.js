@@ -23,6 +23,9 @@
     window.ui = window.ui || {};
 
     window.ui.events = {
+        onAfterLoadingDocument             : function() {
+            return {};
+        },
         onAfterSubmittingAddProjectForm    : function(data) {
             return {};
         },
@@ -35,6 +38,8 @@
     };
 
     window.addEventListener('load', function(ev) {
+        semverData = window.ui.events.onAfterLoadingDocument();
+
         initDomElements();
         initHandlers();
         render();
