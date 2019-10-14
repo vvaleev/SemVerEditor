@@ -29,15 +29,17 @@
         <div class="semver__wrapper">
             <div class="semver__header">
                 <div class="semver__header_title text-info text-center" data-semver="title">SemVerEditor</div>
-                <div class="semver__header_project-caption text-info text-center" data-semver="project-caption">
-                    SemVerEditor v0.9.0+20191013
+                <div class="semver__header_project-caption text-info text-center" data-semver="title-project">
+                    SemVerEditor
                 </div>
-                <span class="semver__header_project-remove" data-semver="delete-project" style="display: none">x</span>
+                <span class="semver__header_project-remove" data-semver="button-delete-project" style="display: none">
+                    x
+                </span>
             </div>
 
             <div class="semver__content">
                 <div class="semver__content_start-screen" data-semver="start-screen" style="display: block">
-                    <button class="semver__content_start-button btn btn-success" data-semver="start-button"></button>
+                    <button class="semver__content_start-button btn btn-success" data-semver="button-to-create-project"></button>
                 </div>
                 <div class="semver__content_second-screen" data-semver="second-screen" style="display: none">
                     <table class="semver__content_table table text-center">
@@ -52,7 +54,7 @@
                 </div>
                 <div class="semver__content_third-screen" data-semver="third-screen" style="display: none">
                     <form action="" class="text-center" data-form="update-version">
-                        <div class="semver__content_form-versions" data-semver="form-versions-body"></div>
+                        <div class="semver__content_form-versions" data-semver="form-list-body-versions"></div>
                         <button class="btn btn-success" data-loading-text="Sending data..." data-semver="update-button"></button>
                     </form>
                 </div>
@@ -77,7 +79,7 @@
             </div>
         </div>
 
-        <div class="semver__modal_add-project text-center white-popup mfp-hide" data-semver="modal-add-project-body-template">
+        <div class="semver__modal_add-project text-center white-popup mfp-hide" data-semver="add-project-modal-window-body-template">
             <form action="" data-form="add-project">
                 <label>
                     <span class="text-uppercase">{{PROJECT_NAME}}:</span>
@@ -97,7 +99,7 @@
             </tr>
         </script>
 
-        <script data-semver="form-versions-body-template" type="html/template">
+        <script data-semver="form-list-body-versions-template" type="html/template">
             <div class="semver__content_form-version-block">
                 <span class="semver__content_form-version-info-block">
                     <span class="semver__content_form-version-info-icon">?</span>
