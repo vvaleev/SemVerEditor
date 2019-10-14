@@ -37,6 +37,7 @@
 
         var self = this;
         var formElement;
+        var $formElement;
         var $btnSubmit;
         var formData;
         var data = {};
@@ -44,7 +45,8 @@
         $(doc).on('submit', '[data-form="' + idForm + '"]', function(e) {
             e.preventDefault();
 
-            formElement = this;
+            formElement  = this;
+            $formElement = $(this);
 
             if(!self.formValidate(formElement)) {
                 return false;
@@ -52,6 +54,7 @@
 
             $btnSubmit = $(formElement).find('[data-loading-text]');
             formData   = new FormData(formElement);
+            data       = {};
 
             $btnSubmit.button('loading');
 
