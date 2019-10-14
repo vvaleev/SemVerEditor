@@ -19,6 +19,53 @@
     var domSemverFormListBodyVersionsTemplate;
     var domSemverAddProjectModalWindowBodyTemplate;
 
+    window.ui = window.ui || {};
+
+    window.ui.events = {
+        onAfterSubmittingAddProjectForm    : function(data) {
+            return {
+                'PROJECT_NAME' : data['PROJECT_NAME'],
+                'VERSIONS'     : [{
+                    version : '0.1.0'
+                }]
+            };
+        },
+        onAfterSubmittingVersionUpdateForm : function(data) {
+            var version = semverData['VERSIONS'][semverData['VERSIONS'].length - 1].version.split('.');
+
+            switch(data['VERSION']) {
+                case 'MAJOR':
+                    version[0] = +version[0] + 1;
+                    version[1] = 0;
+                    version[2] = 0;
+                    break;
+                case 'MINOR':
+                    version[1] = +version[1] + 1;
+                    version[2] = 0;
+                    break;
+                case 'PATCH':
+                    version[2] = +version[2] + 1;
+                    break;
+                case 'PRERELEASE':
+                    break;
+                case 'METADATA':
+                    break;
+            }
+
+            semverData['VERSIONS'].push({
+                version : version.join('.')
+            });
+
+            return {
+                'PROJECT_NAME' : semverData['PROJECT_NAME'],
+                'VERSIONS'     : semverData['VERSIONS']
+            };
+        },
+        onAfterClickBtnDeleteProject       : function() {
+            return {};
+        }
+    };
+
     window.addEventListener('load', function(ev) {
         //semverData['PROJECT_NAME'] = 'PROJECT_NAME';
         //semverData['VERSIONS']     = [{
@@ -60,10 +107,11 @@
             if(typeof data === 'object' && data['PROJECT_NAME']) {
                 Modal.close();
 
-                semverData['PROJECT_NAME'] = data['PROJECT_NAME'];
-                semverData['VERSIONS']     = [{
-                    version : '0.1.0'
-                }];
+                if(typeof window.ui.events.onAfterSubmittingAddProjectForm === 'function') {
+                    semverData = window.ui.events.onAfterSubmittingAddProjectForm({
+                        'PROJECT_NAME' : data['PROJECT_NAME']
+                    });
+                }
 
                 setTimeout(render, 24);
             }
@@ -71,18 +119,13 @@
 
         Form.initForm('update-version', function(data) {
             if(typeof data === 'object' && data['VERSION']) {
-                switch(data['VERSION']) {
-                    case 'MAJOR':
-                    case 'MINOR':
-                    case 'PATCH':
-
-                        setTimeout(render, 24);
-                        break;
-                    case 'PRERELEASE':
-                        break;
-                    case 'METADATA':
-                        break;
+                if(typeof window.ui.events.onAfterSubmittingVersionUpdateForm === 'function') {
+                    semverData = window.ui.events.onAfterSubmittingVersionUpdateForm({
+                        'VERSION' : data['VERSION']
+                    });
                 }
+
+                setTimeout(render, 24);
             }
         });
 
@@ -96,7 +139,9 @@
         domSemverButtonDeleteProject && (domSemverButtonDeleteProject.onclick = function(ev) {
             ev.preventDefault();
 
-            semverData = {};
+            if(typeof window.ui.events.onAfterClickBtnDeleteProject === 'function') {
+                semverData = window.ui.events.onAfterClickBtnDeleteProject();
+            }
 
             setTimeout(render, 24);
         });
