@@ -32,8 +32,9 @@
     };
 
     window.ui.events.onAfterSubmittingVersionUpdateForm = function(data) {
-        var project     = listOfProjects[data['PROJECT_ID']];
-        var projectData = project.getProject();
+        var project      = listOfProjects[data['PROJECT_ID']];
+        var projectData  = project.getProject();
+        var listVersions = [].concat(project.version.getVersions());
 
         switch(data['VERSION']) {
             case 'MAJOR':
@@ -56,7 +57,7 @@
         return {
             'PROJECT_NAME' : projectData.projectName,
             'PROJECT_ID'   : projectData.projectID,
-            'VERSIONS'     : project.version.getVersions()
+            'VERSIONS'     : listVersions
         };
     };
 
