@@ -5,6 +5,7 @@
     var semverData = {};
     var domSemverTitle;
     var domSemverProjectCaption;
+    var domSemverDeleteProject;
     var domSemverStartScreen;
     var domSemverSecondScreen;
     var domSemverThirdScreen;
@@ -95,6 +96,7 @@
     function initDomElements() {
         domSemverTitle                       = document.querySelector('[data-semver="title"]');
         domSemverProjectCaption              = document.querySelector('[data-semver="project-caption"]');
+        domSemverDeleteProject               = document.querySelector('[data-semver="delete-project"]');
         domSemverStartScreen                 = document.querySelector('[data-semver="start-screen"]');
         domSemverSecondScreen                = document.querySelector('[data-semver="second-screen"]');
         domSemverThirdScreen                 = document.querySelector('[data-semver="third-screen"]');
@@ -147,6 +149,14 @@
             Modal.options.focus = '[name="PROJECT_NAME"]';
             Modal.open(domSemverModalAddProjectBodyTemplate, 'inline');
         });
+
+        domSemverDeleteProject && (domSemverDeleteProject.onclick = function(ev) {
+            ev.preventDefault();
+
+            semverData = {};
+
+            setTimeout(render, 24);
+        });
     }
 
     function render() {
@@ -165,6 +175,7 @@
             domSemverStartScreen && domSemverStartScreen.hide();
             domSemverSecondScreen && domSemverSecondScreen.show();
             domSemverThirdScreen && domSemverThirdScreen.show();
+            domSemverDeleteProject && domSemverDeleteProject.show();
 
             if(semverData['VERSIONS'] && semverData['VERSIONS'] instanceof Array && semverData['VERSIONS'].length) {
                 renderTemplateTableBody(semverData['VERSIONS'].reverse());
@@ -196,6 +207,18 @@
                     //versionOptionValue : 'METADATA'
                 }]);
             }
+        }
+        else {
+            domSemverProjectCaption && domSemverProjectCaption.setInnerText('SemVerEditor');
+
+            domSemverStartScreen && domSemverStartScreen.show();
+            domSemverSecondScreen && domSemverSecondScreen.hide();
+            domSemverThirdScreen && domSemverThirdScreen.hide();
+            domSemverDeleteProject && domSemverDeleteProject.hide();
+
+            renderTemplateTableBody([{
+                version : '0.1.0'
+            }]);
         }
     }
 
