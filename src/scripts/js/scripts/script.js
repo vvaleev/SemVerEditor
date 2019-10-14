@@ -8,7 +8,21 @@
     });
 
     window.ui.events.onAfterLoadingDocument = function() {
-        return getSavedData();
+        var data = getSavedData();
+
+        var project     = new Project(data['PROJECT_NAME'], data['PROJECT_ID']);
+        var projectData = project.getProject();
+        var version     = new Version();
+        var listVersions;
+
+        version.setVersions(data['VERSIONS']);
+        listVersions = version.getVersions();
+        version.setVersion(listVersions[listVersions.length - 1].version);
+        project.versionInit(version);
+
+        listOfProjects[projectData.projectID] = project;
+
+        return data;
     };
 
     window.ui.events.onAfterSubmittingAddProjectForm = function(data) {
@@ -33,26 +47,32 @@
 
     window.ui.events.onAfterSubmittingVersionUpdateForm = function(data) {
         var project      = listOfProjects[data['PROJECT_ID']];
-        var projectData  = project.getProject();
-        var listVersions = [].concat(project.version.getVersions());
+        var projectData  = {};
+        var listVersions = [];
 
-        switch(data['VERSION']) {
-            case 'MAJOR':
-                project.version.major();
-                break;
-            case 'MINOR':
-                project.version.minor();
-                break;
-            case 'PATCH':
-                project.version.patch();
-                break;
-            case 'PRERELEASE':
-                break;
-            case 'METADATA':
-                break;
+        if(project) {
+            projectData = project.getProject();
+
+            switch(data['VERSION']) {
+                case 'MAJOR':
+                    project.version.major();
+                    break;
+                case 'MINOR':
+                    project.version.minor();
+                    break;
+                case 'PATCH':
+                    project.version.patch();
+                    break;
+                case 'PRERELEASE':
+                    break;
+                case 'METADATA':
+                    break;
+            }
+
+            listVersions = [].concat(project.version.getVersions());
+
+            saveData(projectData.projectID, true);
         }
-
-        saveData(projectData.projectID, true);
 
         return {
             'PROJECT_NAME' : projectData.projectName,
@@ -72,12 +92,13 @@
     };
 
     function saveData(projectID, isCurrent) {
-        var project     = listOfProjects[projectID];
-        var projectData = project.getProject();
-        var data        = {};
+        var project = listOfProjects[projectID];
+        var projectData;
+        var data    = {};
 
         if(project) {
-            data = {
+            projectData = project.getProject();
+            data        = {
                 'PROJECT_NAME' : projectData.projectName,
                 'PROJECT_ID'   : projectData.projectID,
                 'VERSIONS'     : project.version.getVersions()
@@ -91,6 +112,14 @@
             }
 
             semverData[projectID] = data;
+
+            for(var pID in semverData) {
+                if(semverData.hasOwnProperty(pID)) {
+                    if(pID !== projectID) {
+                        semverData[pID]['IS_CURRENT'] = !isCurrent;
+                    }
+                }
+            }
         }
 
         LocalStorage.set('SEMVER_DATA', JSON.stringify(semverData));
@@ -98,9 +127,6 @@
 
     function getSavedData() {
         var data               = LocalStorage.get('SEMVER_DATA');
-        var project;
-        var projectData;
-        var version;
         var currentProjectData = {};
 
         try {
@@ -108,22 +134,20 @@
 
             for(var projectID in data) {
                 if(data.hasOwnProperty(projectID)) {
-                    project     = new Project(data[projectID]['PROJECT_NAME']);
-                    projectData = project.getProject();
-                    version     = new Version(data[projectID]['VERSIONS'][data[projectID]['VERSIONS'].length - 1]);
+                    semverData[projectID] = {
+                        'PROJECT_NAME' : data[projectID]['PROJECT_NAME'],
+                        'PROJECT_ID'   : data[projectID]['PROJECT_ID'],
+                        'VERSIONS'     : data[projectID]['VERSIONS'],
+                        'IS_CURRENT'   : data[projectID]['IS_CURRENT']
+                    };
 
-                    project.versionInit(version);
-
-                    listOfProjects[projectData.projectID] = project;
-
-                    if(data[projectID]['IS_CURRENT']) {
-                        currentProjectData = data[projectID];
+                    if(semverData[projectID]['IS_CURRENT']) {
+                        currentProjectData = semverData[projectID];
                     }
                 }
             }
         }
         catch(e) {
-            data = {};
         }
 
         return currentProjectData;

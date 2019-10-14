@@ -1,12 +1,12 @@
 (function(window, document) {
     'use strict';
 
-    function Project(projectName) {
+    function Project(projectName, projectID) {
         var self = this;
 
         self._defaultProjectName = 'Demo';
         self._currentProjectName = self._defaultProjectName;
-        self._currentProjectID   = generateID();
+        self._currentProjectID   = projectID || generateID();
         self._version            = null;
 
         if(projectName) {

@@ -13,9 +13,7 @@
         self._currentVersion = self._defaultVersion;
         self._listVersions   = [];
 
-        if(isValidate(version)) {
-            self._currentVersion = getValidData.call(self, version);
-        }
+        self.setVersion(version);
 
         self._listVersions.push({
             version : self._currentVersion
@@ -28,8 +26,39 @@
         return this._currentVersion;
     };
 
+    Version.prototype.setVersion = function(version) {
+        var self = this;
+
+        if(isValidate(version)) {
+            self._currentVersion = getValidData.call(self, version);
+        }
+
+        return self;
+    };
+
     Version.prototype.getVersions = function() {
         return this._listVersions;
+    };
+
+    Version.prototype.setVersions = function(listVersions) {
+        var self = this;
+        var data = [];
+
+        if(listVersions && listVersions instanceof Array && listVersions.length) {
+            for(var key in listVersions) {
+                if(listVersions.hasOwnProperty(key)) {
+                    if(listVersions[key].version) {
+                        data.push(listVersions[key]);
+                    }
+                }
+            }
+        }
+
+        if(data.length) {
+            self._listVersions = data;
+        }
+
+        return self._listVersions;
     };
 
     Version.prototype.major = function() {
