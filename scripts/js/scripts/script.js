@@ -129,8 +129,6 @@
     }
 
     function removeSavedData(projectID) {
-        debugger;
-
         var data = LocalStorage.get('SEMVER_DATA');
 
         try {

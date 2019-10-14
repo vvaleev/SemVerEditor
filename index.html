@@ -26,6 +26,13 @@
         <script src="scripts/js/scripts/project.js"></script>
         <script src="scripts/js/scripts/ui.js"></script>
         <script src="scripts/js/scripts/script.js"></script>
+        <script>
+            (function(window) {
+                'use strict';
+
+                window.demoProject = new Project('SemVerEditor v0.12.0+20191014');
+            })(window);
+        </script>
     </head>
     <body>
         <div class="semver__wrapper">
@@ -63,12 +70,12 @@
             </div>
 
             <div class="semver__footer text-center">
-                <a class="semver__footer_link" href="http://github.com/vvaleev/" target="_blank">
+                <a class="semver__footer_link" href="http://github.com/vvaleev/SemVerEditor" target="_blank">
                     View Source on GitHub →
                 </a>
                 <span class="semver__footer_delimiter">|</span>
-                <a class="semver__footer_link" href="https://t.me/SemVerEditor" target="_blank">
-                    Telegram channel @SemVerEditor
+                <a class="semver__footer_link" href="https://t.me/SemVerChannel" target="_blank">
+                    Telegram channel @SemVerChannel
                 </a>
                 <span class="semver__footer_delimiter">| Language:</span>
                 <a class="semver__footer_link" href="javascript:location.search = 'lang=en'">

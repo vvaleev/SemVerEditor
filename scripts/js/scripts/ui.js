@@ -164,7 +164,7 @@
             }
         }
         else {
-            domSemverTitleProject && domSemverTitleProject.setInnerText('SemVerEditor');
+            domSemverTitleProject && domSemverTitleProject.setInnerText(window.demoProject._currentProjectName);
 
             domSemverStartScreen && domSemverStartScreen.show();
             domSemverSecondScreen && domSemverSecondScreen.hide();
