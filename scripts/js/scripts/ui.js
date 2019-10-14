@@ -1,7 +1,8 @@
 (function(window, document) {
     'use strict';
 
-    var semverData = {};
+    var currentProjectID = 0;
+    var semverData       = {};
     var domSemverTitle;
     var domSemverTitleProject;
     var domSemverButtonDeleteProject;
@@ -23,61 +24,17 @@
 
     window.ui.events = {
         onAfterSubmittingAddProjectForm    : function(data) {
-            return {
-                'PROJECT_NAME' : data['PROJECT_NAME'],
-                'VERSIONS'     : [{
-                    version : '0.1.0'
-                }]
-            };
+            return {};
         },
         onAfterSubmittingVersionUpdateForm : function(data) {
-            var version = semverData['VERSIONS'][semverData['VERSIONS'].length - 1].version.split('.');
-
-            switch(data['VERSION']) {
-                case 'MAJOR':
-                    version[0] = +version[0] + 1;
-                    version[1] = 0;
-                    version[2] = 0;
-                    break;
-                case 'MINOR':
-                    version[1] = +version[1] + 1;
-                    version[2] = 0;
-                    break;
-                case 'PATCH':
-                    version[2] = +version[2] + 1;
-                    break;
-                case 'PRERELEASE':
-                    break;
-                case 'METADATA':
-                    break;
-            }
-
-            semverData['VERSIONS'].push({
-                version : version.join('.')
-            });
-
-            return {
-                'PROJECT_NAME' : semverData['PROJECT_NAME'],
-                'VERSIONS'     : semverData['VERSIONS']
-            };
+            return {};
         },
-        onAfterClickBtnDeleteProject       : function() {
+        onAfterClickBtnDeleteProject       : function(data) {
             return {};
         }
     };
 
     window.addEventListener('load', function(ev) {
-        //semverData['PROJECT_NAME'] = 'PROJECT_NAME';
-        //semverData['VERSIONS']     = [{
-        //    version : '1.0.0'
-        //}, {
-        //    version : '1.0.1'
-        //}, {
-        //    version : '1.0.2'
-        //}, {
-        //    version : '1.0.3'
-        //}];
-
         initDomElements();
         initHandlers();
         render();
@@ -118,10 +75,11 @@
         });
 
         Form.initForm('update-version', function(data) {
-            if(typeof data === 'object' && data['VERSION']) {
+            if(typeof data === 'object' && data['VERSION'] && currentProjectID) {
                 if(typeof window.ui.events.onAfterSubmittingVersionUpdateForm === 'function') {
                     semverData = window.ui.events.onAfterSubmittingVersionUpdateForm({
-                        'VERSION' : data['VERSION']
+                        'VERSION'    : data['VERSION'],
+                        'PROJECT_ID' : currentProjectID
                     });
                 }
 
@@ -139,8 +97,10 @@
         domSemverButtonDeleteProject && (domSemverButtonDeleteProject.onclick = function(ev) {
             ev.preventDefault();
 
-            if(typeof window.ui.events.onAfterClickBtnDeleteProject === 'function') {
-                semverData = window.ui.events.onAfterClickBtnDeleteProject();
+            if(currentProjectID) {
+                if(typeof window.ui.events.onAfterClickBtnDeleteProject === 'function') {
+                    semverData = window.ui.events.onAfterClickBtnDeleteProject({'PROJECT_ID' : currentProjectID});
+                }
             }
 
             setTimeout(render, 24);
@@ -157,7 +117,9 @@
 
         domSemverAddProjectModalWindowBodyTemplate && domSemverAddProjectModalWindowBodyTemplate.setInnerHTML(renderTemplate(['{{PROJECT_NAME}}'], [messages['CAPTIONS']['PROJECT']], domSemverAddProjectModalWindowBodyTemplate.getInnerHTML()));
 
-        if(semverData['PROJECT_NAME']) {
+        if(semverData['PROJECT_ID']) {
+            currentProjectID = semverData['PROJECT_ID'];
+
             domSemverTitleProject && domSemverTitleProject.setInnerText(semverData['PROJECT_NAME']);
 
             domSemverStartScreen && domSemverStartScreen.hide();
