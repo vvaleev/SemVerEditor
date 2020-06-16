@@ -195,8 +195,8 @@
 
     function renderTemplateTableBody(data) {
         var template     = domSemverTableBodyTemplate && domSemverTableBodyTemplate.getInnerHTML();
-        var date         = new Date();
-        var dateData     = date.getFullYear() + '.' + date.getMonth() + '.' + date.getDate();
+        // var date         = new Date();
+        // var dateData     = date.getFullYear() + '.' + date.getMonth() + '.' + date.getDate();
         var templates;
         var values;
         var templateData = '';
@@ -206,8 +206,8 @@
                 if(data.hasOwnProperty(key)) {
                     if(typeof data[key] === 'object') {
                         if(data[key].version) {
-                            templates = ['{{VERSION}}', '{{DATE}}', '{{CLASS_NAME}}'];
-                            values    = [data[key].version, dateData,
+                            templates = ['{{VERSION}}', /* '{{DATE}}', */ '{{CLASS_NAME}}'];
+                            values    = [data[key].version, /* dateData , */
                                          (key === '0') ? 'semver__content_active-column' : ''];
                             templateData += renderTemplate(templates, values, template);
                         }
